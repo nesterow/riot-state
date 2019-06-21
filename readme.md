@@ -21,7 +21,7 @@ A javascript object containing functions. An action cannot be an `arrow function
 
 
 ## Component context 
-A component has to provide a list of variables that will be injected in component scope.
+A component has to provide a list of `shared` variables that will be injected in component scope.
 ```javascript
 export default {
   shared: ['foo', 'bar']
