@@ -2,69 +2,99 @@
 
 Simplest centralized state management for Riot.JS
 
+[⚙ CodeSandbox Example](https://codesandbox.io/s/goofy-satoshi-dbul6)
+
+
+#### Usage
+
+A riot-state store consists of following properties: `name`, `state`, `actions`. And provides following methods: `dispatch`, `install`
+
+##### Store `name`
+Name property is required if initial state would load from a global object.
+By default `riot-state` loads initial data from `document.__GLOBAL_SHARED_STATE [name]`
+
+##### State
+A **flat** javascript object.
+
+##### Actions
+A javascript object containing functions. An action cannot be an `arrow function`
+
+
+
+#### Example:
 
 ```javascript
 //store.js
-const {createStore} = require('riot-state')
+import { createStore } from "./state";
 
-const name = 'example'
+const name = "example";
 
 const state = {
-  text: ''
-}
+  number: 0
+};
 
 const actions = {
-  ping(){
-    this.state.name = 'ping'
+  increment(value = 1) {
+    this.number += value;
   },
-  pong(){
-    this.state.name = 'pong'
+
+  decrement(value = 1) {
+    this.number -= value;
   }
 };
 
-module.exports = createStore({
+export default createStore({
   name,
   state,
   actions
-})
+});
+
 ```
 
 ```html
-<ping>
-  {text}
+<number>
+  <div class="number">
+    {number}
+  </div>
   <script>
-  import store from '/store.js'
-  export default {
-    shared: [
-      'text'
-    ],
-    onMounted(){
-      store.install(this)
-    },
-    ping(){
-      store.dispatch('ping')
-    }
-  }
+    import store from './store'
+    export default ()=> ({
+      shared: [
+        'number'
+      ],
+      onMounted(){
+        store.install(this)
+        this.update()
+      },
+      onUpdated(){
+        console.log(this.number)
+      }
+    })
   </script>
-</ping>
+</number>
 ```
 
 ```html
-<pong>
-  {text}
+<controls>
+  <button onclick={plus}>+</button>
+  <button onclick={minus}>-</button>
   <script>
-  import store from '/store.js'
-  export default {
-    shared: [
-      'text'
-    ],
-    onMounted(){
-      store.install(this)
-    },
-    pong(){
-      store.dispatch('pong')
-    }
-  }
+    import store from './store'
+    export default () => ({
+      onMounted(){
+        store.install(this)
+      },
+      plus(){
+        store.dispatch('increment')
+      },
+      minus(){
+        store.dispatch('decrement')
+      },
+    })
   </script>
-</pong>
+</controls>
 ```
+
+### License
+
+MIT
