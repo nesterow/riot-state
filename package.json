@@ -1,0 +1,11 @@
+{
+  "name": "riot-state",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/nesterow/riot-state",
+  "author": "Anton Nesterov <arch.nesterov@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "on-change": "^1.5.0"
+  }
+}
