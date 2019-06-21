@@ -1,11 +1,11 @@
-### riot-state
+## riot-state
 
 Simplest centralized state management for Riot.JS
 
 [⚙ CodeSandbox Example](https://codesandbox.io/s/goofy-satoshi-dbul6)
 
 
-#### Usage
+## Usage
 
 A riot-state store consists of following properties: `name`, `state`, `actions`. And provides following methods: `dispatch`, `install`
 
@@ -21,7 +21,7 @@ A javascript object containing functions. An action cannot be an `arrow function
 
 
 
-#### Example:
+## Example:
 
 ```javascript
 //store.js
