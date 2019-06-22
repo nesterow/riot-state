@@ -13,7 +13,7 @@ module.exports.createStore = function({ name, state, actions }) {
     }
   };
 
-  const subscribtions = {};
+  let subscribtions = {};
   const subscribe = (prop, cb) => {
     subscribtions[prop] = subscribtions[prop] || [];
     if (!subscribtions[prop].includes(cb)) subscribtions[prop].push(cb);
@@ -57,7 +57,12 @@ module.exports.createStore = function({ name, state, actions }) {
     }
   };
 
+  const reset = () => {
+    subscribtions = {}
+  }
+
   return {
+    reset,
     state: _state,
     dispatch,
     subscribe,
