@@ -7,7 +7,7 @@ module.exports.createStore = function({ name, state, actions }) {
   let _state = state;
 
   const saveCopy = () => {
-    if (typeof document !== "undefined") {
+    if (typeof document !== 'undefined') {
       document.__GLOBAL_SHARED_STATE = document.__GLOBAL_SHARED_STATE || {};
       document.__GLOBAL_SHARED_STATE[name] = _state;
     }
@@ -21,6 +21,9 @@ module.exports.createStore = function({ name, state, actions }) {
 
   const install = component => {
     (component.shared || []).forEach(e => {
+      if (component [e]) {
+        return console.warn(`[Store: ${name}] Property ${e} belongs to another store or component scope`)
+      } 
       Object.defineProperty(component, e, {
         get() {
           return _state[e];
@@ -30,10 +33,23 @@ module.exports.createStore = function({ name, state, actions }) {
         component.update();
       });
     });
+    if (typeof document !== 'undefined') {
+      document.__GLOBAL_STORES = document.__GLOBAL_STORES || {};
+      document.__GLOBAL_STORES[name] = {
+        reset,
+        state: _state,
+        dispatch,
+        subscribe,
+        install
+      };
+    }
   };
 
   const dispatch = function(action) {
-    const ctx = {};
+    const Stores = typeof document !== 'undefined' ? document.__GLOBAL_STORES : {}
+    const ctx = {
+      Stores,
+    };
     Object.keys(state).forEach(element => {
       Object.defineProperty(ctx, element, {
         get: function() {

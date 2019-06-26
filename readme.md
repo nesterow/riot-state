@@ -9,9 +9,18 @@ Simplest centralized state management for Riot.JS
 
 A riot-state store consists of following properties: `name`, `state`, `actions`. And provides following methods: `dispatch`, `install`
 
-##### Store `name`
-Name property is required if initial state would load from a global object.
+##### Store name
+Property `name` is required if initial state would load from a global object.
 By default `riot-state` loads initial data from `document.__GLOBAL_SHARED_STATE [name]`
+
+If there are more than one store it is possible to access them in an `action` context by name. 
+```javascript
+const actions = {
+  ping(){
+    this.Stores.storeName.dispatch('pong')
+  }
+}
+```
 
 ##### State
 A **flat** javascript object.
